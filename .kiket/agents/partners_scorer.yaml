@@ -1,0 +1,76 @@
+model_version: "1.0"
+id: ai.partners.partner_scorer
+version: 1.0.0
+name: Partner Application Scorer
+description: Score partner applications based on fit and potential.
+
+prompt: |
+  Score this partner application for fit and potential value.
+
+  **Application:**
+  - Company: {{issue.custom_fields.company_name}}
+  - Website: {{issue.custom_fields.website}}
+  - Industry: {{issue.custom_fields.industry}}
+  - Company Size: {{issue.custom_fields.company_size}}
+  - Partnership Type: {{issue.custom_fields.partnership_type}}
+  - Experience: {{issue.custom_fields.relevant_experience}}
+  - Motivation: {{issue.description}}
+
+  **Ideal Partner Profile:**
+  {{context.ideal_partner_profile}}
+
+  **Existing Partners:**
+  {{#each context.existing_partners}}
+  - {{this.name}} ({{this.type}}): {{this.performance_rating}}/5
+  {{/each}}
+
+  Provide scoring as structured data:
+  - overall_score: 1-100
+  - fit_score: 1-100 (alignment with ideal profile)
+  - potential_score: 1-100 (revenue/growth potential)
+  - risk_score: 1-100 (higher = more risk)
+  - recommendation: accept/review/reject
+  - strengths: Array of key strengths
+  - concerns: Array of concerns to address
+  - notes: Additional context for reviewers
+
+capabilities:
+  - partner_scoring
+  - risk_assessment
+
+context:
+  required:
+    - documents
+  optional:
+    - analytics
+
+human_in_loop:
+  required: false
+
+metadata:
+  output_format: json
+  max_tokens: 800
+  schema:
+    type: object
+    properties:
+      overall_score:
+        type: number
+      fit_score:
+        type: number
+      potential_score:
+        type: number
+      risk_score:
+        type: number
+      recommendation:
+        type: string
+        enum: [accept, review, reject]
+      strengths:
+        type: array
+        items:
+          type: string
+      concerns:
+        type: array
+        items:
+          type: string
+      notes:
+        type: string

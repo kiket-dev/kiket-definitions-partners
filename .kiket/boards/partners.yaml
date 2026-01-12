@@ -1,0 +1,66 @@
+model_version: "1.0"
+board:
+  id: partners-board
+  name: Partner Pipeline
+  description: Partner application and onboarding tracking.
+  version: 1.0.0
+
+  filters:
+    issue_types:
+      - partner_application
+    workflows:
+      - partner
+
+  columns:
+    - id: applied
+      name: Applied
+      states:
+        - applied
+      wip_limit: null
+      color: secondary
+
+    - id: evaluating
+      name: Evaluating
+      states:
+        - evaluating
+      wip_limit: 10
+      color: info
+
+    - id: onboarding
+      name: Onboarding
+      states:
+        - onboarding
+      wip_limit: 10
+      color: primary
+
+    - id: certified
+      name: Certified
+      states:
+        - certified
+      wip_limit: null
+      color: success
+
+    - id: active
+      name: Active
+      states:
+        - active
+      wip_limit: null
+      color: success
+
+  card_fields:
+    - title
+    - custom_fields.company_name
+    - custom_fields.partnership_type
+    - custom_fields.partner_score
+    - assignee
+
+  quick_filters:
+    - field: custom_fields.partnership_type
+      label: Implementation
+      value: implementation
+    - field: custom_fields.partnership_type
+      label: Reseller
+      value: reseller
+    - field: status
+      label: In Progress
+      values: [evaluating, onboarding]

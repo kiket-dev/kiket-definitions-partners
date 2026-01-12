@@ -1,0 +1,47 @@
+# kiket-definitions-partners
+
+Partner management and certification workflows for Kiket.
+
+## Overview
+
+This definition provides partner program workflows including:
+
+- **Workflow**: Partner lifecycle from application to active status
+- **AI Agents**: Partner scoring, certification grading
+- **Intake Form**: Public partner application
+- **Board**: Partner pipeline board
+
+## Structure
+
+```
+.kiket/
+├── project.yaml           # Definition metadata
+├── issue_types.yaml       # Partner application issue type
+├── workflows/
+│   └── partner.yaml       # Partner lifecycle workflow
+├── agents/
+│   ├── partners_scorer.yaml
+│   └── partners_certification_grader.yaml
+├── intakes/
+│   └── partner_application.yaml
+└── boards/
+    └── partners.yaml
+```
+
+## Installation
+
+Install via Kiket marketplace or include in your project configuration:
+
+```yaml
+definitions:
+  - id: partners
+    version: ">=1.0.0"
+```
+
+## Required Extensions
+
+- `email` - Email notifications
+
+## Optional Extensions
+
+- `slack` - Team notifications

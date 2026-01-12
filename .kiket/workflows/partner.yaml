@@ -1,0 +1,116 @@
+model_version: "1.0"
+workflow:
+  id: partner
+  name: Partner Lifecycle
+  version: 1.0.0
+  description: Partner application through certification.
+
+states:
+  applied:
+    type: initial
+    category: pending
+    metadata:
+      label: Applied
+      color: secondary
+      icon: "📝"
+      description: Application submitted.
+    on_enter:
+      - action: ai_analyze
+        agent: ai.partners.partner_scorer
+        store_result_in: custom_fields.partner_score
+
+  evaluating:
+    type: active
+    category: active
+    metadata:
+      label: Evaluating
+      color: info
+      icon: "🔍"
+      description: Application under review.
+    sla:
+      warning: 72h
+      breach: 168h
+      business_hours: true
+
+  onboarding:
+    type: active
+    category: active
+    metadata:
+      label: Onboarding
+      color: primary
+      icon: "📚"
+      description: Partner completing onboarding.
+    checklist:
+      id: partner_onboarding
+      title: Onboarding Checklist
+      required_mode: all
+      items:
+        - id: training_complete
+          label: Platform training completed
+          check_type: manual
+          required: true
+        - id: certification_quiz
+          label: Certification quiz passed
+          check_type: manual
+          required: true
+        - id: demo_project
+          label: Demo project submitted
+          check_type: manual
+          required: true
+        - id: agreement_signed
+          label: Partner agreement signed
+          check_type: manual
+          required: true
+      on_complete:
+        - action: transition
+          to: certified
+
+  certified:
+    type: active
+    category: completed
+    metadata:
+      label: Certified
+      color: success
+      icon: "🏆"
+      description: Partner certified.
+    on_enter:
+      - action: notify
+        recipients:
+          roles: [partners, sales]
+        message: "🏆 New certified partner: ${issue.custom_fields.company_name}"
+        level: success
+
+  active:
+    type: final
+    category: completed
+    metadata:
+      label: Active
+      color: success
+      icon: "✅"
+      description: Active partner.
+
+  rejected:
+    type: final
+    category: completed
+    metadata:
+      label: Rejected
+      color: danger
+      icon: "❌"
+      description: Application rejected.
+
+transitions:
+  - from: applied
+    to: evaluating
+    name: Start Evaluation
+  - from: evaluating
+    to: onboarding
+    name: Accept Application
+  - from: evaluating
+    to: rejected
+    name: Reject Application
+  - from: onboarding
+    to: certified
+    name: Complete Certification
+  - from: certified
+    to: active
+    name: Activate Partner

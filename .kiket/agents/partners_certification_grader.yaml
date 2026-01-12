@@ -1,0 +1,50 @@
+model_version: "1.0"
+id: ai.partners.certification_grader
+version: 1.0.0
+name: Certification Grader
+description: Grade partner certification submissions and demo projects.
+
+prompt: |
+  Grade this partner's certification submission.
+
+  **Partner:**
+  - Company: {{issue.custom_fields.company_name}}
+  - Contact: {{issue.custom_fields.contact_name}}
+
+  **Submission:**
+  - Quiz Score: {{issue.custom_fields.quiz_score}}
+  - Demo Project: {{issue.custom_fields.demo_project_url}}
+  - Demo Description: {{issue.custom_fields.demo_description}}
+
+  **Certification Criteria:**
+  {{context.certification_criteria}}
+
+  **Demo Project Requirements:**
+  {{context.demo_requirements}}
+
+  Evaluate the submission:
+  1. **Quiz Assessment**: Analysis of quiz performance
+  2. **Demo Project Review**:
+     - Technical implementation quality
+     - Best practices adherence
+     - Creativity and problem-solving
+     - Documentation quality
+  3. **Overall Grade**: Pass/Conditional Pass/Fail
+  4. **Feedback**: Constructive feedback for the partner
+  5. **Certification Level**: Basic/Professional/Expert (if passing)
+
+capabilities:
+  - certification_grading
+  - technical_review
+
+context:
+  required:
+    - documents
+
+human_in_loop:
+  required: true
+  reason: Certification decisions require human verification
+
+metadata:
+  output_format: markdown
+  max_tokens: 1000

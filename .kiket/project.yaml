@@ -1,0 +1,12 @@
+model_version: "1.0"
+project:
+  id: partners
+  name: Partner Management
+  version: 1.0.0
+  description: Partner application, onboarding, and certification workflows.
+
+  extensions:
+    required:
+      - email
+    optional:
+      - slack

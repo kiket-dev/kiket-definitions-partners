@@ -1,0 +1,140 @@
+model_version: "1.0"
+intake:
+  id: partner-application
+  name: Partner Application
+  description: Apply to become a certified partner.
+  version: 1.0.0
+
+  public: true
+  slug: partners/apply
+
+  branding:
+    title: "Partner Program Application"
+    subtitle: "Join our partner ecosystem and grow your business with us."
+    logo: "partner-program-logo.svg"
+
+  issue:
+    type: partner_application
+    workflow: partner
+    initial_state: applied
+    title_template: "[Partner] {{company_name}}"
+
+  fields:
+    - key: company_name
+      type: string
+      label: Company Name
+      placeholder: "Your company name"
+      required: true
+      max_length: 200
+      map_to: custom_fields.company_name
+
+    - key: website
+      type: url
+      label: Company Website
+      placeholder: "https://yourcompany.com"
+      required: true
+      map_to: custom_fields.website
+
+    - key: contact_name
+      type: string
+      label: Contact Name
+      placeholder: "Primary contact person"
+      required: true
+      map_to: custom_fields.contact_name
+
+    - key: contact_email
+      type: email
+      label: Contact Email
+      placeholder: "contact@yourcompany.com"
+      required: true
+      map_to: custom_fields.contact_email
+
+    - key: contact_phone
+      type: phone
+      label: Phone Number
+      required: false
+      map_to: custom_fields.contact_phone
+
+    - key: company_size
+      type: enum
+      label: Company Size
+      required: true
+      options:
+        - value: "1-10"
+          label: "1-10 employees"
+        - value: "11-50"
+          label: "11-50 employees"
+        - value: "51-200"
+          label: "51-200 employees"
+        - value: "201-500"
+          label: "201-500 employees"
+        - value: "500+"
+          label: "500+ employees"
+      map_to: custom_fields.company_size
+
+    - key: industry
+      type: enum
+      label: Industry
+      required: true
+      options:
+        - value: technology
+          label: "Technology / Software"
+        - value: consulting
+          label: "Consulting"
+        - value: agency
+          label: "Digital Agency"
+        - value: system_integrator
+          label: "System Integrator"
+        - value: var
+          label: "Value Added Reseller"
+        - value: other
+          label: "Other"
+      map_to: custom_fields.industry
+
+    - key: partnership_type
+      type: enum
+      label: Partnership Interest
+      required: true
+      options:
+        - value: referral
+          label: "Referral Partner"
+        - value: reseller
+          label: "Reseller Partner"
+        - value: implementation
+          label: "Implementation Partner"
+        - value: technology
+          label: "Technology Partner"
+      map_to: custom_fields.partnership_type
+
+    - key: relevant_experience
+      type: text
+      label: Relevant Experience
+      placeholder: "Describe your experience with similar products or services"
+      required: true
+      map_to: custom_fields.relevant_experience
+
+    - key: description
+      type: markdown
+      label: Why Partner With Us?
+      placeholder: "Tell us about your business and why you'd like to partner with us"
+      required: true
+      map_to: description
+
+  confirmation:
+    title: "Application Received"
+    message: |
+      Thank you for applying to our partner program!
+
+      **Application Reference:** #{{issue.id}}
+
+      Our partnerships team will review your application and get back to you within 5 business days.
+
+  notifications:
+    on_submit:
+      - type: email
+        to: "{{contact_email}}"
+        subject: "Partner Application Received - {{company_name}}"
+        template: partner_application_confirmation
+      - type: slack
+        channel: "#partnerships"
+        message: "🤝 New partner application: {{company_name}} ({{partnership_type}})"
