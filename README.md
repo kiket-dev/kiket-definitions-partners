@@ -10,6 +10,7 @@ This definition provides partner program workflows including:
 - **AI Agents**: Partner scoring, certification grading
 - **Intake Form**: Public partner application
 - **Board**: Partner pipeline board
+- **Analytics**: Partner tiers, certification rates, deal registrations, revenue attribution
 
 ## Structure
 
@@ -24,8 +25,11 @@ This definition provides partner program workflows including:
 │   └── partners_certification_grader.yaml
 ├── intakes/
 │   └── partner_application.yaml
-└── boards/
-    └── partners.yaml
+├── boards/
+│   └── partners.yaml
+└── analytics/
+    └── dashboards/
+        └── partner_health.yaml
 ```
 
 ## Installation
