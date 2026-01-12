@@ -1,0 +1,185 @@
+model_version: "1.0"
+dashboard:
+  id: partner-health
+  name: Partner Health
+  description: Track partner program performance, certifications, and revenue attribution.
+  widgets:
+    - id: total-partners-kpi
+      type: kpi
+      title: Total Active Partners
+      query: fct_partner_count
+      query_config:
+        model: fct_partner_count
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+          status: active
+      options:
+        comparison:
+          interval: "30d"
+
+    - id: partner-tier-distribution
+      type: leaderboard
+      title: Partners by Tier
+      query: fct_partner_tiers
+      query_config:
+        model: fct_partner_tiers
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+      visualization:
+        group_by: tier
+        value: partner_count
+
+    - id: certification-rate-kpi
+      type: kpi
+      title: Certification Completion Rate
+      query: fct_partner_certifications
+      query_config:
+        model: fct_partner_certifications
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+      options:
+        format: percentage
+        comparison:
+          interval: "30d"
+
+    - id: deal-registrations-trend
+      type: timeseries
+      title: Deal Registrations by Month
+      query: fct_partner_deals
+      query_config:
+        model: fct_partner_deals
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+        order_by:
+          - registration_month
+      visualization:
+        x: registration_month
+        y: deal_count
+        series: tier
+
+    - id: partner-revenue-trend
+      type: timeseries
+      title: Partner-Attributed Revenue
+      query: fct_partner_revenue
+      query_config:
+        model: fct_partner_revenue
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+        order_by:
+          - revenue_month
+      visualization:
+        x: revenue_month
+        y: total_revenue
+        format: currency
+
+    - id: top-partners-revenue
+      type: leaderboard
+      title: Top Partners by Revenue
+      query: fct_partner_revenue
+      query_config:
+        model: fct_partner_revenue
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+      visualization:
+        group_by: partner_name
+        value: total_revenue
+        format: currency
+        limit: 10
+
+    - id: certification-progress
+      type: table
+      title: Certification Progress
+      query: fct_partner_certifications
+      query_config:
+        model: fct_partner_certifications
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+        select:
+          - certification_name
+          - enrolled_count
+          - completed_count
+          - completion_rate
+          - avg_completion_days
+        order_by:
+          - completion_rate DESC
+
+    - id: pending-applications
+      type: table
+      title: Pending Partner Applications
+      query: fct_partner_applications
+      query_config:
+        model: fct_partner_applications
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+          status: pending
+        select:
+          - company_name
+          - applied_date
+          - days_pending
+          - requested_tier
+          - region
+        order_by:
+          - applied_date
+        limit: 15
+
+  alerts:
+    - query: fct_partner_applications
+      query_config:
+        model: fct_partner_applications
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+          status: pending
+      condition: days_pending > 14
+      notify_roles:
+        - manager
+      message: "Partner applications pending for more than 14 days"
+
+    - query: fct_partner_certifications
+      query_config:
+        model: fct_partner_certifications
+        parameters:
+          - name: project_id
+            type: integer
+            required: true
+        filters:
+          project_id: ":project_id"
+      condition: completion_rate < 0.50
+      notify_roles:
+        - manager
+      message: "Certification completion rate is below 50%"
