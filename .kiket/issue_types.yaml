@@ -1,34 +1,24 @@
 model_version: "1.0"
 
 issue_types:
-  partner_application:
-    name: Partner Application
-    description: Partner program application
-    icon: "🤝"
-    color: "#F59E0B"
-    workflow: partner
-    fields:
-      - key: company_name
-        type: string
-        label: Company Name
-        required: true
-      - key: contact_email
-        type: email
-        label: Contact Email
-        required: true
-      - key: partner_type
-        type: enum
-        label: Partner Type
-        options: [reseller, implementation, technology, referral]
-      - key: region
-        type: string
-        label: Region
-      - key: partner_score
-        type: number
-        label: Partner Fit Score
-        min: 0
-        max: 100
-      - key: certification_status
-        type: enum
-        label: Certification Status
-        options: [not_started, in_progress, certified, expired]
+  - key: partner_application
+    label: Partner Application
+    allow_children: false
+    color: warning
+    icon: people
+    position: 0
+    active: true
+  - key: partner_onboarding
+    label: Partner Onboarding
+    allow_children: true
+    color: primary
+    icon: person-check
+    position: 1
+    active: true
+  - key: certification
+    label: Certification
+    allow_children: false
+    color: success
+    icon: award
+    position: 2
+    active: true
