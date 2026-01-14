@@ -5,6 +5,15 @@ project:
   version: 1.0.0
   description: Partner application, onboarding, and certification workflows.
 
+  team:
+    roles:
+      - name: partner_manager
+        description: Partner manager overseeing relationships and onboarding
+      - name: enablement
+        description: Partner enablement specialist providing training and resources
+      - name: success_manager
+        description: Partner success manager ensuring satisfaction and growth
+
   extensions:
     required:
       - email
