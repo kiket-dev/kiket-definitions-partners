@@ -1,5 +1,5 @@
 model_version: "1.0"
-intake:
+intake_form:
   id: partner-application
   name: Partner Application
   description: Apply to become a certified partner.
