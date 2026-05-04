@@ -7,7 +7,7 @@ board:
   workflow: partner
 
 filters:
-  issue_types:
+  case_types:
     - partner_application
   workflows:
     - partner
