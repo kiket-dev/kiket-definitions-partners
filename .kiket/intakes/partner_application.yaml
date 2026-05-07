@@ -125,7 +125,7 @@ intake_form:
     message: |
       Thank you for applying to our partner program!
 
-      **Application Reference:** #{{issue.id}}
+      **Application Reference:** #{{case.id}}
 
       Our partnerships team will review your application and get back to you within 5 business days.
 

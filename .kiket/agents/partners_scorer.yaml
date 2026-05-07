@@ -11,13 +11,13 @@ agent:
         Score this partner application for fit and potential value.
 
         **Application:**
-        - Company: {{issue.custom_fields.company_name}}
-        - Website: {{issue.custom_fields.website}}
-        - Industry: {{issue.custom_fields.industry}}
-        - Company Size: {{issue.custom_fields.company_size}}
-        - Partnership Type: {{issue.custom_fields.partnership_type}}
-        - Experience: {{issue.custom_fields.relevant_experience}}
-        - Motivation: {{issue.description}}
+        - Company: {{case.custom_fields.company_name}}
+        - Website: {{case.custom_fields.website}}
+        - Industry: {{case.custom_fields.industry}}
+        - Company Size: {{case.custom_fields.company_size}}
+        - Partnership Type: {{case.custom_fields.partnership_type}}
+        - Experience: {{case.custom_fields.relevant_experience}}
+        - Motivation: {{case.description}}
 
         **Ideal Partner Profile:**
         {{context.ideal_partner_profile}}

@@ -10,13 +10,13 @@ This definition provides partner program workflows including:
 - **AI Agents**: Partner scoring, certification grading
 - **Intake Form**: Public partner application
 - **Board**: Partner pipeline board
-- **Analytics**: Partner tiers, certification rates, deal registrations, revenue attribution
+- **Dashboards**: Partner tiers, certification rates, deal registrations, revenue attribution
 
 ## Structure
 
 ```
 .kiket/
-├── project.yaml           # Definition metadata
+├── workspace.yaml           # Definition metadata
 ├── case_types.yaml       # Partner application case type
 ├── workflows/
 │   └── partner.yaml       # Partner lifecycle workflow

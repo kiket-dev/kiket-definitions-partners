@@ -77,7 +77,7 @@ states:
       - action: notify
         recipients:
           roles: [partners, sales]
-        message: "🏆 New certified partner: ${issue.custom_fields.company_name}"
+        message: "🏆 New certified partner: ${case.custom_fields.company_name}"
         level: success
 
   active:

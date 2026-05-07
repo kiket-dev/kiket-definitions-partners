@@ -11,13 +11,13 @@ agent:
         Grade this partner's certification submission.
 
         **Partner:**
-        - Company: {{issue.custom_fields.company_name}}
-        - Contact: {{issue.custom_fields.contact_name}}
+        - Company: {{case.custom_fields.company_name}}
+        - Contact: {{case.custom_fields.contact_name}}
 
         **Submission:**
-        - Quiz Score: {{issue.custom_fields.quiz_score}}
-        - Demo Project: {{issue.custom_fields.demo_project_url}}
-        - Demo Description: {{issue.custom_fields.demo_description}}
+        - Quiz Score: {{case.custom_fields.quiz_score}}
+        - Demo Project: {{case.custom_fields.demo_project_url}}
+        - Demo Description: {{case.custom_fields.demo_description}}
 
         **Certification Criteria:**
         {{context.certification_criteria}}
